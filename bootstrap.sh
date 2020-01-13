@@ -6,14 +6,18 @@ sudo dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noa
 sudo dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y
 
 sudo dnf module install php:remi-7.3 -y
+sudo dnf install php-mysqlnd -y
 
 sudo dnf install mariadb-server -y
 sudo systemctl enable mariadb
+sudo cp /vagrant/configs/mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
 sudo systemctl start mariadb
 # sudo mysql_secure_installation
 
 sudo dnf install nginx -y
 sudo systemctl enable nginx
+sudo mkdir /etc/nginx/sites
+sudo cp /vagrant/configs/nginx.conf /etc/nginx/nginx.conf
 sudo systemctl start nginx
 
 sudo dnf install git npm -y

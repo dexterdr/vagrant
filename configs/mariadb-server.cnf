@@ -1,0 +1,42 @@
+[server]
+
+# this is only for the mysqld standalone daemon
+[mysqld]
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+log-error=/var/log/mariadb/mariadb.log
+slow_query_log = 1
+slow_query_log_file = /var/log/mariadb/mariadb-slow.log
+pid-file=/run/mariadb/mariadb.pid
+
+default_storage_engine = InnoDB
+
+# MyISAM #
+# Set to 20-25% of available memory if MyISAM tables being used.
+key_buffer_size = 16M
+
+# SAFETY #
+max_allowed_packet = 4M
+skip-name-resolve
+skip-networking
+
+# CACHES AND LIMITS #
+query_cache_type = 1
+query_cache_size = 16M
+
+# INNODB #
+innodb_log_file_size = 64M
+innodb_buffer_pool_size = 256M
+
+[mysqldump]
+quick
+max_allowed_packet = 16M
+
+[galera]
+
+[embedded]
+
+[mariadb]
+
+[mariadb-10.1]
+
