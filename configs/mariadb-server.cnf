@@ -18,7 +18,7 @@ key_buffer_size = 16M
 # SAFETY #
 max_allowed_packet = 4M
 skip-name-resolve
-skip-networking
+# skip-networking
 
 # CACHES AND LIMITS #
 query_cache_type = 1

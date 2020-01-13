@@ -1,0 +1,56 @@
+server {
+    server_name www.site.local;
+    rewrite ^(.*) http://site.local$1 permanent;
+}
+
+server {
+    listen 80;
+    server_name site.local;
+
+    root /var/www/site/public;
+    index index.php;
+
+    location / {
+        try_files $uri $uri/ /index.php?$args;
+    }
+
+    # deny running scripts inside writable directories
+    location ~* /(images|cache|media|logs|tmp)/.*\.(php|pl|py|jsp|asp|sh|cgi)$ {
+        return 403;
+        error_page 403 /403_error.html;
+    }
+
+    location = /favicon.png {
+        expires max;
+        log_not_found off;
+        access_log off;
+    }
+
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+
+    location ~* .(jpg|jpeg|png|gif|ico|css|js)$ {
+        expires max;
+        log_not_found off;
+    }
+
+    error_page 404 /404.html;
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass php-fpm;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_read_timeout 120;
+    }
+}
+
